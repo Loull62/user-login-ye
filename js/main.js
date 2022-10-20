@@ -5,7 +5,7 @@ let signInBtn = document.getElementById('sign-in-btn');
 let signUpBtn = document.getElementById('sign-up-btn');
 
 let users = loadUsers();
-saveUser();
+// saveUser();
 
 // SIGN UP BTN CLICKED
 signUpBtn.addEventListener('click', signUpHandler);
@@ -15,26 +15,30 @@ function signUpHandler() {
   let userInp = document.getElementById("signUser").value;
   let passInp = document.getElementById("signPass").value;
   let passCfm = document.getElementById("signCfm").value;
-  for (let i = 0; i < users.length; i++) {
-    if (userFound === 1 && passInp === passCfm) {
+  if (passInp === passCfm) {
+    console.log("test")
+    let e = userFound(userInp); 
+    console.log(e);
+    if (e === 1) {
       console.log("User Added");
-    } else if (userFound === -1) {
-      console.log("User Taken");
+      users.push(newUser(userInp, passInp));
+      saveUser();
     } else {
-      console.log("Pass Doesn't Match");
-    }
+    console.log("User Taken");
+    // } else {
+    //   console.log("Pass Doesn't Match");
+    // }
   }
 }
-
-
-  // // for (let i = 0; i < users.length; i++) { 
-  //   {
-  //   if (passInp === passCfm) {
-  //     console.log("User Saved");
-  //     users.push(newUser(userInp, passInp))
-  //     saveUser();
-    // } else if (userInp === users[i].name) {
-    //   console.log("User taken");
+}
+// // for (let i = 0; i < users.length; i++) { 
+//   {
+//   if (passInp === passCfm) {
+//     console.log("User Saved");
+//     users.push(newUser(userInp, passInp))
+//     saveUser();
+// } else if (userInp === users[i].name) {
+//   console.log("User taken");
 //     } else {
 //       console.log("Pass no match");
 //     }
@@ -65,16 +69,16 @@ function signInHandler() {
   }
 }
 
-function userFound() {
-  let testExist = document.getElementById("signUser");
-  for (let i = 0; i < users.length; i++) {
-    if (testExist === users[i].name) {
+function userFound(userTest) {
+  for (let i = 0; i === users.length; i++) {
+    if (userTest === users[i].name) {
       return -1;
     } else {
       return 1;
     }
   }
 }
+  
 
 function saveUser() {
   localStorage.setItem("users", JSON.stringify(users));
@@ -84,3 +88,5 @@ function loadUsers() {
   let usersStr = localStorage.getItem("users");
   return JSON.parse(usersStr) ?? [];
 }
+
+// 2201
