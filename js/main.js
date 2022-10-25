@@ -5,7 +5,7 @@ let signInBtn = document.getElementById('sign-in-btn');
 let signUpBtn = document.getElementById('sign-up-btn');
 
 let users = loadUsers();
-// saveUser();
+saveUser();
 
 // SIGN UP BTN CLICKED
 signUpBtn.addEventListener('click', signUpHandler);
@@ -16,34 +16,19 @@ function signUpHandler() {
   let passInp = document.getElementById("signPass").value;
   let passCfm = document.getElementById("signCfm").value;
   if (passInp === passCfm) {
-    console.log("test")
-    let e = userFound(userInp); 
-    console.log(e);
-    if (e === 1) {
-      console.log("User Added");
+    let found = userFound(userInp);
+    console.log(found);
+    if (found === 1) {
+      alert("User Added");
       users.push(newUser(userInp, passInp));
       saveUser();
-    } else {
-    console.log("User Taken");
-    // } else {
-    //   console.log("Pass Doesn't Match");
-    // }
+    } else if (found === -1) {
+      alert("User Already Exists");
+    }
+  } else {
+    alert("Passwords Do Not Match");
   }
 }
-}
-// // for (let i = 0; i < users.length; i++) { 
-//   {
-//   if (passInp === passCfm) {
-//     console.log("User Saved");
-//     users.push(newUser(userInp, passInp))
-//     saveUser();
-// } else if (userInp === users[i].name) {
-//   console.log("User taken");
-//     } else {
-//       console.log("Pass no match");
-//     }
-//   }
-// }
 
 function newUser(username, password) {
   return {
@@ -56,29 +41,28 @@ function newUser(username, password) {
 signInBtn.addEventListener('click', signInHandler);
 
 function signInHandler() {
-  console.log('Sign In Btn Clicked');
   let userAtmp = document.getElementById("logUser").value;
   let passAtmp = document.getElementById("logPass").value;
+
   for (let i = 0; i < users.length; i++) {
     if (userAtmp === users[i].name && passAtmp === users[i].pass) {
-      console.log("ye");
+      alert("Sign in Successful");
       break;
     } else {
-      console.log("no");
+      alert("Sign in Unsuccessful");
     }
   }
 }
 
 function userFound(userTest) {
-  for (let i = 0; i === users.length; i++) {
+  for (let i = 0; i < users.length; i++) {
     if (userTest === users[i].name) {
       return -1;
-    } else {
-      return 1;
     }
   }
+  return 1;
 }
-  
+
 
 function saveUser() {
   localStorage.setItem("users", JSON.stringify(users));
